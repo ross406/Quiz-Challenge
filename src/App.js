@@ -6,7 +6,7 @@ import QuizInstruntions from './components/quiz/QuizInstruntions';
 function App() {
   return (
     <Router>
-      <Route path="/" component={Home} />
+      <Route path="/" exact component={Home} />
       <Route path="/play/instructions" exact component={QuizInstruntions} />
     </Router>
   );
