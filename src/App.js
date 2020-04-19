@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/Home';
 import QuizInstruntions from './components/quiz/QuizInstruntions';
 import Play from './components/quiz/Play';
+import QuizSummary from './components/quiz/QuizSummary';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/play/instructions" exact component={QuizInstruntions} />
       <Route path="/play/quiz" exact component={Play} />
+      <Route path="/play/quizSummary" exact component={QuizSummary} />
     </Router>
   );
 }

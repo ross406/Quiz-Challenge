@@ -25,9 +25,6 @@ class Play extends Component {
       score: 0,
       correctAnswers: 0,
       wrongAnswers: 0,
-      hints: 5,
-      fiftyFifty: 2,
-      usedFiftyFifty: false,
       nextButtonDisabled: false,
       previousButtonDisabled: true,
       previousRandomNumbers: [],
@@ -239,96 +236,6 @@ class Play extends Component {
     });
   };
 
-  handleHints = () => {
-    if (this.state.hints > 0) {
-      const options = Array.from(document.querySelectorAll('.option'));
-      let indexOfAnswer;
-
-      options.forEach((option, index) => {
-        if (
-          option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()
-        ) {
-          indexOfAnswer = index;
-        }
-      });
-
-      while (true) {
-        const randomNumber = Math.round(Math.random() * 3);
-        if (
-          randomNumber !== indexOfAnswer &&
-          !this.state.previousRandomNumbers.includes(randomNumber)
-        ) {
-          options.forEach((option, index) => {
-            if (index === randomNumber) {
-              option.style.visibility = 'hidden';
-              this.setState((prevState) => ({
-                hints: prevState.hints - 1,
-                previousRandomNumbers: prevState.previousRandomNumbers.concat(
-                  randomNumber
-                ),
-              }));
-            }
-          });
-          break;
-        }
-        if (this.state.previousRandomNumbers.length >= 3) break;
-      }
-    }
-  };
-
-  handleFiftyFifty = () => {
-    if (this.state.fiftyFifty > 0 && this.state.usedFiftyFifty === false) {
-      const options = document.querySelectorAll('.option');
-      const randomNumbers = [];
-      let indexOfAnswer;
-
-      options.forEach((option, index) => {
-        if (
-          option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()
-        ) {
-          indexOfAnswer = index;
-        }
-      });
-
-      let count = 0;
-      do {
-        const randomNumber = Math.round(Math.random() * 3);
-        if (randomNumber !== indexOfAnswer) {
-          if (
-            randomNumbers.length < 2 &&
-            !randomNumbers.includes(randomNumber) &&
-            !randomNumbers.includes(indexOfAnswer)
-          ) {
-            randomNumbers.push(randomNumber);
-            count++;
-          } else {
-            while (true) {
-              const newRandomNumber = Math.round(Math.random() * 3);
-              if (
-                !randomNumbers.includes(newRandomNumber) &&
-                newRandomNumber !== indexOfAnswer
-              ) {
-                randomNumbers.push(newRandomNumber);
-                count++;
-                break;
-              }
-            }
-          }
-        }
-      } while (count < 2);
-
-      options.forEach((option, index) => {
-        if (randomNumbers.includes(index)) {
-          option.style.visibility = 'hidden';
-        }
-      });
-      this.setState((prevState) => ({
-        fiftyFifty: prevState.fiftyFifty - 1,
-        usedFiftyFifty: true,
-      }));
-    }
-  };
-
   startTimer = () => {
     const countDownTime = Date.now() + 180000;
     this.interval = setInterval(() => {
@@ -412,8 +319,6 @@ class Play extends Component {
     const {
       currentQuestion,
       currentQuestionIndex,
-      fiftyFifty,
-      hints,
       numberOfQuestions,
       time,
     } = this.state;
@@ -430,24 +335,7 @@ class Play extends Component {
         </Fragment>
         <div className="questions">
           <h2>Quiz Mode</h2>
-          <div className="lifeline-container">
-            <p>
-              <span
-                onClick={this.handleFiftyFifty}
-                className="mdi mdi-set-center mdi-24px lifeline-icon"
-              >
-                <span className="lifeline">{fiftyFifty}</span>
-              </span>
-            </p>
-            <p>
-              <span
-                onClick={this.handleHints}
-                className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"
-              >
-                <span className="lifeline">{hints}</span>
-              </span>
-            </p>
-          </div>
+
           <div className="timer-container">
             <p>
               <span className="left" style={{ float: 'left' }}>
