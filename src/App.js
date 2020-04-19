@@ -8,7 +8,7 @@ import QuizSummary from './components/quiz/QuizSummary';
 function App() {
   return (
     <Router>
-      <Route path="/*" exact component={Home} />
+      <Route path="/" exact component={Home} />
       <Route path="/play/instructions" exact component={QuizInstruntions} />
       <Route path="/play/quiz" exact component={Play} />
       <Route path="/play/quizSummary" exact component={QuizSummary} />
