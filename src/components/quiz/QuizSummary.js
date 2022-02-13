@@ -54,7 +54,7 @@ class QuizSummary extends Component {
           <div style={{ textAlign: 'center' }}>
             <span className="mdi mdi-check-circle-outline success-icon"></span>
           </div>
-          <h1>Quiz has ended</h1>
+          <h1>Exam has ended</h1>
           <div className="container stats">
             <h4>{remark}</h4>
             <h2>Your Score: {this.state.score.toFixed(0)}&#37;</h2>
@@ -74,9 +74,9 @@ class QuizSummary extends Component {
           </div>
           <section>
             <ul>
-              <li>
+              {/* <li>
                 <Link to="/play/quiz">Play Again</Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/">Back to Home</Link>
               </li>
@@ -90,7 +90,7 @@ class QuizSummary extends Component {
           <h1 className="no-stats">No Statistics Available</h1>
           <ul>
             <li>
-              <Link to="/play/quiz">Take a Quiz</Link>
+              <Link to="/play/quiz">Take an Exam</Link>
             </li>
             <li>
               <Link to="/">Back to Home</Link>
@@ -102,7 +102,7 @@ class QuizSummary extends Component {
     return (
       <Fragment>
         <Helmet>
-          <title>Quiz App - Summary</title>
+          <title>Exam App - Summary</title>
         </Helmet>
         <div className="quiz-summary">{stats}</div>
       </Fragment>
