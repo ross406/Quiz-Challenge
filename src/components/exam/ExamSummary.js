@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import React, { Component, Fragment } from "react";
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
-class QuizSummary extends Component {
+class ExamSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,13 +37,13 @@ class QuizSummary extends Component {
     const userScore = this.state.score;
 
     if (userScore <= 30) {
-      remark = 'You need more practice!';
+      remark = "You need more practice!";
     } else if (userScore > 30 && userScore <= 50) {
-      remark = 'Better luck next time!';
+      remark = "Better luck next time!";
     } else if (userScore <= 70 && userScore > 50) {
-      remark = 'You can do better!';
+      remark = "You can do better!";
     } else if (userScore >= 71 && userScore <= 84) {
-      remark = 'You did great!';
+      remark = "You did great!";
     } else {
       remark = "You're an absolute genius!";
     }
@@ -51,7 +51,7 @@ class QuizSummary extends Component {
     if (state !== undefined) {
       stats = (
         <Fragment>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: "center" }}>
             <span className="mdi mdi-check-circle-outline success-icon"></span>
           </div>
           <h1>Exam has ended</h1>
@@ -75,7 +75,7 @@ class QuizSummary extends Component {
           <section>
             <ul>
               {/* <li>
-                <Link to="/play/quiz">Play Again</Link>
+                <Link to="/exam/start">Play Again</Link>
               </li> */}
               <li>
                 <Link to="/">Back to Home</Link>
@@ -90,7 +90,7 @@ class QuizSummary extends Component {
           <h1 className="no-stats">No Statistics Available</h1>
           <ul>
             <li>
-              <Link to="/play/quiz">Take an Exam</Link>
+              <Link to="/exam/start">Take an Exam</Link>
             </li>
             <li>
               <Link to="/">Back to Home</Link>
@@ -110,4 +110,4 @@ class QuizSummary extends Component {
   }
 }
 
-export default QuizSummary;
+export default ExamSummary;

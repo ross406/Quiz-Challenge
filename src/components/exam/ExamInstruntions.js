@@ -1,12 +1,12 @@
-import React, { Fragment, Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import React, { Fragment, Component } from "react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
-import answer from '../../assets/img/answer.png';
+import answer from "../../assets/img/answer.png";
 
-import options from '../../assets/img/options.PNG';
+import options from "../../assets/img/options.PNG";
 
-class QuizInstruntions extends Component {
+class ExamInstruntions extends Component {
   render() {
     return (
       <Fragment>
@@ -18,8 +18,8 @@ class QuizInstruntions extends Component {
           <p>Ensure you read this guide from start to finish.</p>
           <ul className="browser-default" id="main-list">
             <li>
-              The exam has a duration of 3 minutes and ends as soon as your
-              time elapses.
+              The exam has a duration of 3 minutes and ends as soon as your time
+              elapses.
             </li>
             <li>Each exam consists of 15 questions.</li>
             <li>
@@ -44,7 +44,7 @@ class QuizInstruntions extends Component {
               <Link to="/">Back</Link>
             </span>
             <span className="right">
-              <Link to="/play/quiz">Next</Link>
+              <Link to="/exam/start">Next</Link>
             </span>
           </div>
         </div>
@@ -53,4 +53,4 @@ class QuizInstruntions extends Component {
   }
 }
 
-export default QuizInstruntions;
+export default ExamInstruntions;

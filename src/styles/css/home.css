@@ -29,6 +29,7 @@
   width: 100%;
 }
 #home a.play-button {
+  margin-top: 80px;
   background-color: #57b846;
   color: #fff;
   cursor: pointer;

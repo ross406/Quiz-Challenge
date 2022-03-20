@@ -1,26 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import { Helmet } from 'react-helmet';
-import M from 'materialize-css';
-import classnames from 'classnames';
+import React, { Component, Fragment } from "react";
+import { Helmet } from "react-helmet";
+import M from "materialize-css";
+import classnames from "classnames";
 
-import questions from '../../questions.json';
-import isEmpty from '../../utils/is-empty';
+import questions from "../../questions.json";
+import isEmpty from "../../utils/is-empty";
 
-import correctNotification from '../../assets/audio/correct-answer.mp3';
-import wrongNotification from '../../assets/audio/wrong-answer.mp3';
-import buttonSound from '../../assets/audio/button-sound.mp3';
+import correctNotification from "../../assets/audio/correct-answer.mp3";
+import wrongNotification from "../../assets/audio/wrong-answer.mp3";
+import buttonSound from "../../assets/audio/button-sound.mp3";
 
-class Play extends Component {
+class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
       questions,
-      correctQuestionAsnswered : [],
-      wrongQuestionAsnswered : [],
+      correctQuestionAsnswered: [],
+      wrongQuestionAsnswered: [],
       currentQuestion: {},
       nextQuestion: {},
       previousQuestion: {},
-      answer: '',
+      answer: "",
       numberOfQuestions: 0,
       numberOfAnsweredQuestions: 0,
       currentQuestionIndex: 0,
@@ -39,12 +39,8 @@ class Play extends Component {
   }
 
   componentDidMount() {
-    const {
-      questions,
-      currentQuestion,
-      nextQuestion,
-      previousQuestion,
-    } = this.state;
+    const { questions, currentQuestion, nextQuestion, previousQuestion } =
+      this.state;
     this.displayQuestions(
       questions,
       currentQuestion,
@@ -89,26 +85,28 @@ class Play extends Component {
   };
 
   handleOptionClick = (e) => {
-    let wrongAnswered = this.state.wrongQuestionAsnswered.filter(question => question == this.state.currentQuestion.question)    
-    let correctAnswered = this.state.correctQuestionAsnswered.filter(question => question == this.state.currentQuestion.question)    
-    if(wrongAnswered.length > 0){
-      this.setState(
-        (prevState) => ({
-          wrongAnswers: prevState.wrongAnswers - 1,
-          numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions - 1,
-        }))
-    } 
-    if(correctAnswered.length > 0){
-      this.setState(
-        (prevState) => ({
-          score: prevState.score - 1 ,
-          correctAnswers: prevState.correctAnswers - 1,
-          numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions - 1,
-        }))
-    } 
+    let wrongAnswered = this.state.wrongQuestionAsnswered.filter(
+      (question) => question == this.state.currentQuestion.question
+    );
+    let correctAnswered = this.state.correctQuestionAsnswered.filter(
+      (question) => question == this.state.currentQuestion.question
+    );
+    if (wrongAnswered.length > 0) {
+      this.setState((prevState) => ({
+        wrongAnswers: prevState.wrongAnswers - 1,
+        numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions - 1,
+      }));
+    }
+    if (correctAnswered.length > 0) {
+      this.setState((prevState) => ({
+        score: prevState.score - 1,
+        correctAnswers: prevState.correctAnswers - 1,
+        numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions - 1,
+      }));
+    }
     if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
       // this.correctTimeout = setTimeout(() => {
-        // this.correctSound.current.play();
+      // this.correctSound.current.play();
       // }, 500);
       this.correctAnswer();
     } else {
@@ -158,23 +156,23 @@ class Play extends Component {
   };
 
   handleQuitButtonClick = () => {
-    this.playButtonSound();
-    if (window.confirm('Are you sure you want to quit?')) {
-      this.props.history.push('/');
+    // this.playButtonSound();
+    if (window.confirm("Are you sure you want to quit?")) {
+      this.props.history.push("/");
     }
   };
 
   handleButtonClick = (e) => {
     switch (e.target.id) {
-      case 'next-button':
+      case "next-button":
         this.handleNextButtonClick();
         break;
 
-      case 'previous-button':
+      case "previous-button":
         this.handlePreviousButtonClick();
         break;
 
-      case 'quit-button':
+      case "quit-button":
         this.handleQuitButtonClick();
         break;
 
@@ -189,24 +187,27 @@ class Play extends Component {
 
   correctAnswer = () => {
     M.toast({
-      html: 'Your Answer is Saved.',
-      classes: 'toast-valid',
+      html: "Your Answer is Saved.",
+      classes: "toast-valid",
       displayLength: 1500,
     });
     const correctQuestionAsnswered = this.state.correctQuestionAsnswered;
-    let index = correctQuestionAsnswered.findIndex(question => question == this.state.currentQuestion.question)    
-    if(index == -1) correctQuestionAsnswered.push(this.state.currentQuestion.question)
+    let index = correctQuestionAsnswered.findIndex(
+      (question) => question == this.state.currentQuestion.question
+    );
+    if (index == -1)
+      correctQuestionAsnswered.push(this.state.currentQuestion.question);
     this.setState(
       (prevState) => ({
         score: prevState.score + 1,
         correctAnswers: prevState.correctAnswers + 1,
         currentQuestionIndex: prevState.currentQuestionIndex + 1,
         numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
-        correctQuestionAsnswered : correctQuestionAsnswered
+        correctQuestionAsnswered: correctQuestionAsnswered,
       }),
       () => {
         if (this.state.nextQuestion === undefined) {
-          this.endGame();
+          this.endExam();
         } else {
           this.displayQuestions(
             this.state.questions,
@@ -222,23 +223,26 @@ class Play extends Component {
   wrongAnswer = () => {
     // navigator.vibrate(1000);
     M.toast({
-      html: 'Your Answer is Saved.',
-      classes: 'toast-valid',
+      html: "Your Answer is Saved.",
+      classes: "toast-valid",
       displayLength: 1500,
     });
     const wrongQuestionAsnswered = this.state.wrongQuestionAsnswered;
-    let index = wrongQuestionAsnswered.findIndex(question => question == this.state.currentQuestion.question)    
-    if(index == -1) wrongQuestionAsnswered.push(this.state.currentQuestion.question)
+    let index = wrongQuestionAsnswered.findIndex(
+      (question) => question == this.state.currentQuestion.question
+    );
+    if (index == -1)
+      wrongQuestionAsnswered.push(this.state.currentQuestion.question);
     this.setState(
       (prevState) => ({
         wrongAnswers: prevState.wrongAnswers + 1,
         currentQuestionIndex: prevState.currentQuestionIndex + 1,
         numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
-        wrongQuestionAsnswered : wrongQuestionAsnswered
+        wrongQuestionAsnswered: wrongQuestionAsnswered,
       }),
       () => {
         if (this.state.nextQuestion === undefined) {
-          this.endGame();
+          this.endExam();
         } else {
           this.displayQuestions(
             this.state.questions,
@@ -252,10 +256,10 @@ class Play extends Component {
   };
 
   showOptions = () => {
-    const options = Array.from(document.querySelectorAll('.option'));
+    const options = Array.from(document.querySelectorAll(".option"));
 
     options.forEach((option) => {
-      option.style.visibility = 'visible';
+      option.style.visibility = "visible";
     });
 
     this.setState({
@@ -282,7 +286,7 @@ class Play extends Component {
             },
           },
           () => {
-            this.endGame();
+            this.endExam();
           }
         );
       } else {
@@ -325,8 +329,8 @@ class Play extends Component {
     }
   };
 
-  endGame = () => {
-    alert('Exam is eneded!');
+  endExam = () => {
+    alert("Exam is eneded!");
     const { state } = this;
     const playerStats = {
       score: state.score,
@@ -338,17 +342,13 @@ class Play extends Component {
       hintsUsed: 5 - state.hints,
     };
     setTimeout(() => {
-      this.props.history.push('/play/quizSummary', playerStats);
+      this.props.history.push("/exam/summary", playerStats);
     }, 1000);
   };
 
   render() {
-    const {
-      currentQuestion,
-      currentQuestionIndex,
-      numberOfQuestions,
-      time,
-    } = this.state;
+    const { currentQuestion, currentQuestionIndex, numberOfQuestions, time } =
+      this.state;
 
     return (
       <Fragment>
@@ -365,11 +365,11 @@ class Play extends Component {
 
           <div className="timer-container">
             <p>
-              <span className="left" style={{ float: 'left' }}>
+              <span className="left" style={{ float: "left" }}>
                 {currentQuestionIndex + 1} of {numberOfQuestions}
               </span>
               <span
-                className={classnames('right valid', {
+                className={classnames("right valid", {
                   warning: time.distance <= 120000,
                   invalid: time.distance < 30000,
                 })}
@@ -399,7 +399,7 @@ class Play extends Component {
 
           <div className="button-container">
             <button
-              className={classnames('', {
+              className={classnames("", {
                 disable: this.state.previousButtonDisabled,
               })}
               id="previous-button"
@@ -408,7 +408,7 @@ class Play extends Component {
               Previous
             </button>
             <button
-              className={classnames('', {
+              className={classnames("", {
                 disable: this.state.nextButtonDisabled,
               })}
               id="next-button"
@@ -426,4 +426,4 @@ class Play extends Component {
   }
 }
 
-export default Play;
+export default Exam;
