@@ -5,8 +5,18 @@ import { Helmet } from "react-helmet";
 import answer from "../../assets/img/answer.png";
 
 import options from "../../assets/img/options.PNG";
+import cookie from "react-cookies";
 
 class ExamInstruntions extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    let email = cookie.load("email");
+    if (!email) {
+      this.props.history.push("/");
+    }
+  }
   render() {
     return (
       <Fragment>
@@ -18,8 +28,8 @@ class ExamInstruntions extends Component {
           <p>Ensure you read this guide from start to finish.</p>
           <ul className="browser-default" id="main-list">
             <li>
-              The exam has a duration of 3 minutes and ends as soon as your time
-              elapses.
+              The exam has a duration of 15 minutes and ends as soon as your
+              time elapses.
             </li>
             <li>Each exam consists of 15 questions.</li>
             <li>

@@ -9,6 +9,7 @@ import isEmpty from "../../utils/is-empty";
 import correctNotification from "../../assets/audio/correct-answer.mp3";
 import wrongNotification from "../../assets/audio/wrong-answer.mp3";
 import buttonSound from "../../assets/audio/button-sound.mp3";
+import cookie from "react-cookies";
 
 class Exam extends Component {
   constructor(props) {
@@ -36,6 +37,13 @@ class Exam extends Component {
     this.correctSound = React.createRef();
     this.wrongSound = React.createRef();
     this.buttonSound = React.createRef();
+  }
+
+  componentDidMount() {
+    let email = cookie.load("email");
+    if (!email) {
+      this.props.history.push("/");
+    }
   }
 
   componentDidMount() {
@@ -268,7 +276,7 @@ class Exam extends Component {
   };
 
   startTimer = () => {
-    const countDownTime = Date.now() + 180000;
+    const countDownTime = Date.now() + 900000;
     this.interval = setInterval(() => {
       const now = new Date();
       const distance = countDownTime - now;

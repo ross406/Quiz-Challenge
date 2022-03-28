@@ -1,8 +1,47 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { getValue, removeValue } from "../utils/CookieService";
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: null,
+      buttonText: "Register",
+    };
+  }
+
+  componentDidMount() {
+    const email = getValue("email");
+    if (email) {
+      this.setState({ email, buttonText: "Logout" });
+    }
+  }
+
+  startClicked() {
+    if (this.state.email) {
+      this.props.history.push("/exam/instructions");
+    } else {
+      alert("You need to Register first.");
+    }
+  }
+
+  loginLogoutButton() {
+    if (this.state.email) {
+      removeValue("fullName");
+      removeValue("email");
+      removeValue("age");
+      alert("You are logged out!");
+      this.setState({
+        email: null,
+        buttonText: "Register",
+      });
+    } else {
+      this.props.history.push("/register");
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -18,21 +57,25 @@ class Home extends Component {
             <div className="play-button-container">
               <ul>
                 <li>
-                  <Link className="play-button" to="/exam/instructions">
+                  <div
+                    className="play-button"
+                    onClick={this.startClicked.bind(this)}
+                  >
                     Start
-                  </Link>
+                  </div>
                 </li>
               </ul>
             </div>
-            {/* <div className="auth-container">
-              <Link
-                to="/login"
-                disabled
+            <div className="auth-container">
+              <div
+                onClick={this.loginLogoutButton.bind(this)}
                 className="auth-buttons"
                 id="login-button"
               >
-                Login
-              </Link>
+                {this.state.buttonText}
+              </div>
+            </div>
+            {/*
               <Link
                 to="/register"
                 disabled
@@ -41,7 +84,7 @@ class Home extends Component {
               >
                 Sign Up
               </Link>
-            </div> */}
+             */}
           </section>
         </div>
       </Fragment>

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
+import cookie from "react-cookies";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { getValue } from "../../utils/CookieService";
 
 class ExamSummary extends Component {
   constructor(props) {
@@ -13,21 +15,29 @@ class ExamSummary extends Component {
       wrongAnswers: 0,
       hintsUsed: 0,
       fiftyFiftyUsed: 0,
+      fullName: getValue("fullName"),
+      email: getValue("email"),
+      age: getValue("age"),
     };
   }
 
   componentDidMount() {
-    const { state } = this.props.location;
-    if (state) {
-      this.setState({
-        score: (state.score / state.numberOfQuestions) * 100,
-        numberOfQuestions: state.numberOfQuestions,
-        numberOfAnsweredQuestions: state.numberOfAnsweredQuestions,
-        correctAnswers: state.correctAnswers,
-        wrongAnswers: state.wrongAnswers,
-        hintsUsed: state.hintsUsed,
-        fiftyFiftyUsed: state.fiftyFiftyUsed,
-      });
+    let email = cookie.load("email");
+    if (!email) {
+      this.props.history.push("/");
+    } else {
+      const { state } = this.props.location;
+      if (state) {
+        this.setState({
+          score: (state.score / state.numberOfQuestions) * 100,
+          numberOfQuestions: state.numberOfQuestions,
+          numberOfAnsweredQuestions: state.numberOfAnsweredQuestions,
+          correctAnswers: state.correctAnswers,
+          wrongAnswers: state.wrongAnswers,
+          hintsUsed: state.hintsUsed,
+          fiftyFiftyUsed: state.fiftyFiftyUsed,
+        });
+      }
     }
   }
 
@@ -58,6 +68,16 @@ class ExamSummary extends Component {
           <div className="container stats">
             <h4>{remark}</h4>
             <h2>Your Score: {this.state.score.toFixed(0)}&#37;</h2>
+            <span className="stat left">Full Name: </span>
+            <span className="right">{this.state.fullName}</span>
+            <br />
+            <span className="stat left">Email: </span>
+            <span className="right">{this.state.email}</span>
+            <br />
+            <span className="stat left">Age: </span>
+            <span className="right">{this.state.age}</span>
+            <br />
+            <br />
             <span className="stat left">Total number of questions: </span>
             <span className="right">{this.state.numberOfQuestions}</span>
             <br />
